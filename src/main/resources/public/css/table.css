@@ -1,0 +1,28 @@
+#form {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+#form{margin: 20px auto;width: 80%;color: #666;font-size: 16px}
+#form > table{width: 100%}
+#form > table >tbody > tr >td.add{text-align: right;width: 25%}
+#form > table > tbody > tr > td > input, #form > table > tbody > tr > td > select{
+	border: 1px solid #E5E5E5;
+	margin: 10px auto;
+	margin-left: 3%;
+	color: #666;
+	padding: 5px 15px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	width: 50%;
+	float: left;
+}
+#form > table > tbody > tr > td > .duoxuan{margin-left:3%;}
+#form > table > tbody > tr > td > .duoxuan > input{margin-right:6px;}
+#form > table > tbody > tr > td > span{margin-left:3%;}
+#form > .input-bottom{padding-left:30%;width: 100%;margin: 30px auto}
+#form >.input-bottom > .btn{margin: 0 15px;display:inline-block;}
+
+#form > table >tbody > tr >td .table2{margin-left: 3%;width:50%;border: 1px solid #e5e5e5}
+#form > table >tbody > tr >td .table2 tr:nth-child(1) td{text-align: right;padding: 10px}
+#form > table >tbody > tr >td .table2 tr td{border:1px solid #e5e5e5;text-align: center;padding: 8px 0}
