@@ -1,5 +1,12 @@
 spring:
   profiles:
+#dev环境下通过读取主数据源中关于其他数据源的配置来动态加载数据源
+#test环境下通过手工修改config/application-test.properties配置文件来动态加载数据源
     active: dev
   thymeleaf:
     prefix: classpath:/templates
+server:
+  port: 8080
+#springBoot配置log输出地址(默认级别为：ERROR、WARN、INFO)
+logging:
+  file: logs/websetup.log

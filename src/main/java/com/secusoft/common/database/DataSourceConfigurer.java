@@ -22,6 +22,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.secusoft.WebApplication;
+import com.secusoft.model.Monitor;
 
 @Configuration
 public class DataSourceConfigurer {
@@ -32,7 +34,7 @@ public class DataSourceConfigurer {
 	private Properties getProperties(){
 		//读取配置文件
 		String separator = System.getProperty("file.separator");
-		String dbConfigPath = System.getProperty("user.dir")+separator+"src"+separator+"main"+separator+"resources"+separator+"application-"+active+".properties";
+		String dbConfigPath = System.getProperty("user.dir")+separator+"config"+separator+"application-"+active+".properties";
 		Properties properties = new Properties();
 		try {
 			InputStream in = new BufferedInputStream(new FileInputStream(
@@ -51,6 +53,15 @@ public class DataSourceConfigurer {
 		dataSource.setUrl(properties.getProperty(dataSourcName+"url"));
 		dataSource.setUsername(properties.getProperty(dataSourcName+"username"));
 		dataSource.setPassword(properties.getProperty(dataSourcName+"password"));
+		return dataSource;
+	}
+	
+	private DataSource initDataSource(Monitor monitor){
+		DruidDataSource dataSource = new DruidDataSource();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://"+ monitor.getDbip()+":"+ monitor.getDbport()+"/"+ monitor.getDbname()+"?characterEncoding=utf-8");
+		dataSource.setUsername(monitor.getDbuser());
+		dataSource.setPassword(monitor.getDbpswd());
 		return dataSource;
 	}
 
@@ -76,12 +87,20 @@ public class DataSourceConfigurer {
     public DataSource dynamicDataSource() {
     	DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
     	Map<Object, Object> dataSourceMap = new HashMap<Object, Object>();
-    	Properties properties = getProperties();
-    	String datasources = properties.getProperty("datasources");
-    	if(datasources!=null && !datasources.isEmpty()){
-    		JSONArray ja = JSON.parseArray(datasources);
-    		for(Object ob : ja){
-    			dataSourceMap.put((String)ob, initDataSource(properties,(String)ob));
+    	if("dev".equals(active)){
+    		//已通过主数据库查询到其他数据源的配置
+    		for(Monitor monitor : WebApplication.monitors){
+    			dataSourceMap.put(monitor.getDbcode(), initDataSource(monitor));
+    		}
+    	}else{
+    		//通过读取配置文件获取数据源配置
+    		Properties properties = getProperties();
+    		String datasources = properties.getProperty("datasources");
+    		if(datasources!=null && !datasources.isEmpty()){
+    			JSONArray ja = JSON.parseArray(datasources);
+    			for(Object ob : ja){
+    				dataSourceMap.put((String)ob, initDataSource(properties,(String)ob));
+    			}
     		}
     	}
         dynamicRoutingDataSource.setDefaultTargetDataSource(dataSourceMap.get("first"));
