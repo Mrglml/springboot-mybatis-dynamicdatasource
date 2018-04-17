@@ -7,15 +7,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.secusoft.common.YouXinResult;
-import com.secusoft.mapper.DynamicDatabasesMapper;
 import com.secusoft.model.DynamicDatabases;
+import com.secusoft.service.MybatisTestService;
 
 /**
  * mybatis测试
@@ -28,22 +27,23 @@ import com.secusoft.model.DynamicDatabases;
 public class MybatisTestController {
 	
 	@Autowired
-	private DynamicDatabasesMapper dynamicDatabasesMapper;
+	private MybatisTestService mybatisTestService;
 	
 	@GetMapping(value = "/getDataBases")
 	public YouXinResult<List<DynamicDatabases>> get(HttpServletRequest request,@RequestParam String dataSource){
-		return YouXinResult.success(dynamicDatabasesMapper.find(dataSource));
+		return YouXinResult.success(mybatisTestService.get(dataSource));
+	}
+	
+	@GetMapping(value = "/testInsert")
+	public YouXinResult<String> testInsert(HttpServletRequest request){
+		mybatisTestService.testInsert("second", "test2");
+		return YouXinResult.success("插入成功");
 	}
 	
 	@GetMapping(value = "/testTransaction")
-	@Transactional(rollbackFor=Exception.class)
-	public YouXinResult<String> testTransaction(HttpServletRequest request) throws Exception{
-		//一个事务内不能使用多个数据源
-//		dynamicDatabasesMapper.insert("first", "test1");
-//		dynamicDatabasesMapper.insert("second", "test2");
-		dynamicDatabasesMapper.insert("third", "test3");
-		dynamicDatabasesMapper.insert("third", "test4");
-		throw new Exception();
+	public YouXinResult<String> testTransaction(HttpServletRequest request){
+		mybatisTestService.testTransaction("third");
+		return YouXinResult.success("success");
 	}
 	
 }

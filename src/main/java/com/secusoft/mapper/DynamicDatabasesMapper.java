@@ -13,9 +13,9 @@ import com.secusoft.model.DynamicDatabases;
 public interface DynamicDatabasesMapper {
 
     @Select("SELECT * FROM dynamicdatabases")
-    List<DynamicDatabases> find(String dataSource);
+    List<DynamicDatabases> find();
 
     @Insert("INSERT INTO dynamicdatabases(databaseName) VALUES(#{databaseName})")
-    int insert(String dataSource,@Param("databaseName") String databaseName);
+    int insert(@Param("databaseName") String databaseName);
 
 }
