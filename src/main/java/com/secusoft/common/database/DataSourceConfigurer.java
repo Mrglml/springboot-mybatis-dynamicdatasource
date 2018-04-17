@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.secusoft.WebApplication;
 import com.secusoft.model.Monitor;
 
 @Configuration
@@ -91,7 +90,7 @@ public class DataSourceConfigurer {
     	Map<Object, Object> dataSourceMap = new HashMap<Object, Object>();
     	if("dev".equals(active)){
     		//已通过主数据库查询到其他数据源的配置
-    		for(Monitor monitor : WebApplication.monitors){
+    		for(Monitor monitor : DynamicDataSourceContextHolder.getMonitors()){
     			dataSourceMap.put(monitor.getDbcode(), initDataSource(monitor));
     		}
     	}else{

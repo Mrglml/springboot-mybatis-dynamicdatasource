@@ -1,7 +1,5 @@
 package com.secusoft;
 
-import java.util.List;
-
 import javax.servlet.MultipartConfigElement;
 
 import org.springframework.boot.SpringApplication;
@@ -14,8 +12,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
+import com.secusoft.common.database.DynamicDataSourceContextHolder;
 import com.secusoft.dao.MonitorDao;
-import com.secusoft.model.Monitor;
 
 /**
  * 启动总入口
@@ -27,9 +25,6 @@ import com.secusoft.model.Monitor;
 @EnableScheduling
 public class WebApplication extends SpringBootServletInitializer {
 	
-	//数据源
-	public static List<Monitor> monitors;
-    
     @Bean
 	RestTemplate restTemplate() {
     	HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
@@ -58,7 +53,7 @@ public class WebApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws Exception {
     	//从主数据库中查询所有数据源
-        monitors = new MonitorDao().selectMonitors();
+    	DynamicDataSourceContextHolder.addMonitors(new MonitorDao().selectMonitors());
         /*//将数据源写入到配置文件中
         String separator = System.getProperty("file.separator");
 		String configPath = System.getProperty("user.dir")+separator+"config"+separator+"application-dev.properties";
