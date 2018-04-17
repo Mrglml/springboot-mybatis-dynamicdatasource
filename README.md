@@ -7,7 +7,7 @@
 
 # test
 - 在创建好数据库并初始化数据之后，通过swagger或者直接访问[http://localhost:8080/mybatis/getDataBases?dataSource=XXX]链接查看数据源动态切换的效果
-- 通过swagger或者直接访问[http://localhost:8080/dynamic/addDataSource]就可以增加第四个数据源(得先建好对应的数据库)，然后访问[http://localhost:8080/mybatis/getDataBases?dataSource=fourth]查看数据源动态切换的效果
+- 通过swagger或者直接访问[http://localhost:8080/dynamic/addDataSource]就可以增加第四个数据源(得先初始化好数据库)，然后访问[http://localhost:8080/mybatis/getDataBases?dataSource=fourth]查看数据源动态切换的效果
 
 ## Guide
 https://github.com/yjclsx/springboot-mybatis-dynamicdatasource.git

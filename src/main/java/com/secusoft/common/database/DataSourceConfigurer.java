@@ -25,6 +25,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.secusoft.model.Monitor;
 
+/**
+ * 动态数据源配置
+ * @author yaojiacheng
+ * 2018年4月12日
+ */
 @Configuration
 @EnableTransactionManagement(order = 2)//由于引入多数据源，所以让spring声明式事务的aop要在多数据源切换的aop的后面
 public class DataSourceConfigurer {

@@ -24,7 +24,8 @@ import com.secusoft.model.Monitor;
 
 /**
  * 数据库查询基础类
- * Created by ChenYongHeng on 2017/4/10.
+ * @author yaojiacheng
+ * 2018年4月12日
  */
 public class BaseDAO<T> {
 

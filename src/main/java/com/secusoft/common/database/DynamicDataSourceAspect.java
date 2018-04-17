@@ -10,6 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
+/**
+ * 多数据源动态切换
+ * @author yaojiacheng
+ * 2018年4月12日
+ */
 @Aspect
 @Component
 public class DynamicDataSourceAspect implements Ordered {
